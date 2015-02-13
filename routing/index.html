@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800italic,800' rel='stylesheet' type='text/css'/>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="http://code.jquery.com/jquery-2.0.2.js" type="text/javascript"></script> 
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.nicescroll.min.js" ></script>
+<script type="text/javascript" charset="utf8" src="//ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script> 
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.1/css/jquery.dataTables.css"> 
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">  
+<link rel="stylesheet" type="text/css" href="css/timeslider.css">
+<script src="js/document.js" type="text/javascript"></script> 
+<script src="js/function.js" type="text/javascript"></script>  
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.8/src/markerwithlabel.js"></script>
+<script type="text/javascript" src="js/excelExport.js"></script>  
+<title>Route</title>
+</head> 
+<body>
+	<div id="empPopup"></div>
+	<div id="wrapper">
+    	<div id="leftWrapper">
+        	<div id="leftWrapperHeader">
+            	<table cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td><img src="css/images/safetraxLogo.png" /></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <table id="leftMenuTable" cellpadding="0" cellspacing="0">
+            	<tr>
+                	<td width="20"><img src="css/images/map.png" /></td><td> Map</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/grid.png" /></td><td>Grid</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/alerts.png" /></td><td>Alerts</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/sos.png" /></td><td>SOS</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/analytics.png" /></td><td>Analytics</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/settings.png" /></td><td>Settings</td>
+                </tr>
+                <tr>
+                	<td><img src="css/images/routing.png" /></td><td>Routing</td>
+                </tr>
+            </table>
+        </div> 
+        <div id="rightWrapper">
+        	<div id="rightWrapperHeader">
+            	<input type="hidden" id="startDate" />
+                <input type="hidden" id="endDate" />  
+            </div>
+            <div id="rightWrapperContent">
+            	<div id="rightWrapperContentFirstHeader">
+                	<table cellpadding="0" cellspacing="0" height="100%">
+                    	<tr>
+                        	<td style="border-right:1px dashed #666;font-size:20px;" width="250">
+                            <img src="css/images/routeLogo.png" style="margin:0 5px -7px 60px" />  Routing  </td>
+                            <td style="padding-left:50px;"><img src="css/images/info.png" style="margin:0 10px -7px 0px" />Welcome Back <label>Siddharth Majumdar !</label> Your Last Login Was at 2:30AM, 15th January 2015</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="rightWrapperContentSecondHeader" style="height:200px">
+                	<table cellpadding="0" cellspacing="0" width="100%" id="timeSlider">
+                    	<tr>
+                        	<td style="padding:0 20px;" width="300" id="timeValue">
+                            <div id="timeRangeValue">Time Range: <span class="slider-time"> </span> - <span class="slider-time2"> </span></div> 
+                            <div id="timeRangeStartEndValue" style="display:none">Start Time: <label class="slider-timeHrs" >03:00 Hrs</label>  -- End Time: <label class="slider-time2Hrs">06:00 Hrs</label></div> </td>
+                            <td width="150" style="padding-left:50px;">
+                            	Office Loaction 
+                             </td>
+                             <td>
+                               <div class="selectOffice">
+                                <select>
+                                	<option>Umiya Business Bay</option>
+                                </select>
+                               </div>
+                            </td>
+                            <td width="100" align="right" style="padding-right:20px;"><input type="button" value="Search" class="button" onclick="SearchModify(this)" /></td>
+                        </tr>
+                       <!-- <tr>
+                        	<td colspan="4" style="padding-left:10px" align="center"></td>
+                        </tr>-->
+                        <tr class="Timeslider">
+                        	<td colspan="4" style="padding:40px 10px 20px 10px" class="Timeslider" id="sliderTD">
+                            	 <div class="sliders_step1">
+                                    <div id="slider-range"></div>
+                                </div> 
+                            </td>
+                        </tr>
+                        <tr class="Timeslider">
+                            <td width="300" id="startDateTime" style="padding-left:20px;"></td>
+                            <td colspan="2" align="center" id="timerNavigation">
+                            	<table style="margin:0 auto">
+                                	<tr><input type='hidden' id='curDateTimeVar' value='1' />
+                                    	<!--<td><img src="css/images/timeOut.png" style="cursor:pointer" onclick="changeTimeslider(this,'zoomOut')" /></td>
+                                        <td style="border-right:3px solid #959595; padding-right:10px;"><img src="css/images/timeZoom.png" style="cursor:pointer" onclick="changeTimeslider(this,'zoomIn')" /></td>-->
+                                        <td style="padding-left:10px;"><img src="css/images/timePrev.png" id="timePrev" onclick="changeTimeslider(this,'Prev')" style="cursor:pointer" /></td>
+                                        <td><img src="css/images/timeNext.png" id="timeNext" style="cursor:pointer" onclick="changeTimeslider(this,'Next')" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="300" id="endDateTime" style="padding-right:20px;" align="right"></td>
+                        </tr>
+                    </table>
+                </div>
+                 <div id="rightWrapperContentThirdHeader">
+                	<table cellpadding="0" cellspacing="0" width="100%">
+                    	<tr>
+                        	<td style="padding-left:20px;" width="400" class="frstNavi"><label>Employees</label></td>
+                            <td style="padding-left:20px;" class="secondNavi"  width="400"><label>Vehicles</label></td>
+                            <td style="padding-left:20px;" class="thirdNavi"><label style="color:#1abc9c">Route</label></td>
+                        </tr>
+                    </table>
+               </div>
+               <div id="empDataDisplay"> 
+               </div> 
+                <div id="route" style="display:none"> 
+                	<div class="excelUpload">
+                    	<img src="css/images/csv_icon.png" width="25" height="25" onclick="exportData()" />
+                    </div>
+               </div> 
+               <div id="vehicleCapacity" >
+               	
+    
+               </div>
+               <div id="vehicleOption">
+               	<input type="button" value="Create Route" id="createRoute" style="float:right;margin: -20px 10px;display:none;position:relative;z-ndex:999;" onclick="createRoute()" class="button" />
+               </div>
+               <div id="mapOption" class="Optionbutt" style="display:none">
+               		<input type="button" value="View in Map" id="viewmap" class="button" />
+                    <input type="button" value="Approve" id="approve" class="button" />
+               </div> 
+                <div id="routeOption" class="Optionbutt" style="">
+               		<input type="button" value="Modify Selection" id="modify" onclick="getData()"  style="display:none;width:130px"class="button" />
+                    <input type="button" value="Proceed" id="proceed" style="display:none;" onclick="callProceed(this)" class="button" />
+                    <input type="hidden" name="netEmp" id="netEmp" /><input type="hidden" name="netPickup" id="netPickup" />
+        			<input type="hidden" name="netDrop" id="netDrop">
+               </div> 
+               
+            </div>
+        </div>
+       <!-- <div id="empOption">
+            <input type="button" value="Modify Selection" class="button"  />
+            <input type="button" value="Proceed" id="proceed" class="button"  onclick="showRoutes()"/>
+       </div> -->
+    </div>
+</body>
+</html>

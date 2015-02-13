@@ -1,0 +1,73 @@
+.dataTables_length,.dataTables_filter{
+	display:none;
+}
+.dataTable{
+	border-collapse: collapse !important;
+	border:1px solid #c2c2c2 !important;
+  	margin:2px auto  !important;
+	width:99%;
+}
+table.dataTable thead th{
+ 	color:#fff;
+	text-align:center;
+	text-transform:capitalize;
+	border-left:1px solid #148f77 !important;
+	border-right:1px solid #148f77 !important;
+	border-bottom:none !important;
+ }
+table.dataTable tbody td{
+	text-transform:capitalize;
+	border-left:1px solid #c2c2c2 !important; 
+	border-right:1px solid #c2c2c2 !important;
+	cursor:pointer;
+} 
+.dataTables_paginate{
+	width:275px;
+	margin:-18px auto 0 auto !important;
+	float:none !important;
+}
+.paginate_disabled_previous,.paginate_enabled_previous{
+	float:left;
+}
+.paginate_enabled_next,.paginate_disabled_next{
+	float:right;
+}
+.paginate_enabled_next,.paginate_enabled_previous{
+	cursor:pointer;
+}
+.dataTables_info{
+	float:none !important;
+	text-align:center;
+	color:#898989;
+	font-size:13px;
+}
+table.dataTable thead .sorting{
+	background:url("images/sorting.png") no-repeat,#1abc9c !important;
+	background-position:95% 55%, center center !important;
+}
+table.dataTable thead .sorting_asc{
+	background:url("images/sorting.png") no-repeat,#1abc9c !important;
+	background-position:95% 55%, center center !important;
+}
+table.dataTable thead .sorting_desc{
+	background:url("images/sorting.png") no-repeat,#1abc9c !important;
+	background-position:95% 55%, center center !important;
+}
+.inputAlignParent,.inputAlignChild{
+	float:left !important;
+}
+.inputAlignChild{
+	margin-left:11px !important;
+} 
+#ChildRowTable_paginate,#ChildRowTable_info{
+	display:none;
+}
+#ChildRowTable tr th{
+	background:#959595 !important;
+} 
+#ChildRowTable tr td{
+	background:#EBEBEB !important;
+}
+.nesteddetails{
+	padding:0px !important; 
+}

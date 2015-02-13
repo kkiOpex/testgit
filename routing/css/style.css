@@ -1,0 +1,265 @@
+body{
+	margin:0px;
+	padding:0px;
+ 	background: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #1C415E),
+	color-stop(1, #557995)
+	);
+	background: -o-linear-gradient(bottom, #1C415E 0%, #557995 100%);
+	background: -moz-linear-gradient(bottom, #1C415E 0%, #557995 100%);
+	background: -webkit-linear-gradient(bottom, #1C415E 0%, #557995 100%);
+	background: -ms-linear-gradient(bottom, #1C415E 0%, #557995 100%);
+	background: linear-gradient(to bottom, #1C415E 0%, #557995 100%);
+	background-attachment:fixed;
+	font-family:Droid Sans;
+	font-size:12px;
+	overflow-x:hidden;
+	
+ }
+#wrapper{
+	width:1366px;
+	margin:0 auto; 
+}
+
+#leftWrapper{
+	width:210px;
+	float:left;
+  	padding:10px;
+}
+#leftWrapperHeader{
+	height:60px;
+}
+#leftWrapperHeader table{
+	padding:10px;
+}
+#rightWrapper{
+	width:1110px;
+  	float:left; 
+}
+#rightWrapperHeader{
+	height:70px;
+ }
+#rightWrapperContent{
+	margin-right:10px;
+	background:#eeeeee;
+	padding-bottom:10px;
+	height:auto;  
+ }
+#rightWrapperContentFirstHeader,#rightWrapperContentSecondHeader,#rightWrapperContentThirdHeader{
+	height:50px; 
+	color:#7F7F7F;
+	font-size:15px;
+	background:#fff;
+	line-height:50px;
+} 
+#rightWrapperContentFirstHeader label{
+	font-weight:600;
+}
+#rightWrapperContentSecondHeader{
+	background:#eee;
+	border-top:1px solid #183c56;
+ 	border-bottom:1px solid #183c56;
+}
+#rightWrapperContentSecondHeader label{
+	color:#1bb899;
+}
+.selectOffice{
+	background: url("images/drop-down.png") no-repeat scroll 97% 50% #959595;
+    border: 1px solid #959595;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 190px;
+	cursor:pointer;
+}
+.selectOffice select{
+ 	background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    box-shadow: none;
+    color: #fff;
+    padding: 7px 8px;
+    text-align: left;
+    width: 120%;
+	cursor:pointer;
+}
+#leftMenuTable{
+	background:rgba(0,0,0,0.2);
+ 	border-radius:5px;
+	width:100%; 
+	color:#fff;
+	padding:10px;
+}
+#leftMenuTable tr td{
+	opacity:0.5;
+	padding:13px 10px;
+	cursor:pointer;
+	font-weight:300;
+ }
+.button{
+	 width:100px;
+	 height:25px;
+	 border:none;
+	 border-radius:5px;
+	 color:#fff;
+	 background:#1abc9c;
+	 cursor:pointer;
+}
+.frstNavi{
+	background:url("images/navi1.png") no-repeat , #b7b7b7;
+	background-position:right, center;
+}
+.secondNavi{
+	background:url("images/navi2.png") no-repeat , #cccccc;
+	background-position:right, center;
+}
+.thirdNavi{
+	background:#eeeeed;
+}
+#rightWrapperContentThirdHeader label{
+	color:#fff; 
+} 
+.Optionbutt{
+	float:right;
+	width:300px; 
+	text-align:right;
+	padding-right:5px;
+	position:relative;
+	margin-top:-23px;
+	z-index:100;
+}
+#startDateTime, #endDateTime{
+	color:#282828;
+	font-size:12px;
+}
+#startDateTime label, #endDateTime label{ 
+	color:#282828;
+	font-size:36px;
+}
+#mapdiv{
+	float:right;
+	width:325px;
+	height:100%;
+  	margin-top:-419px;
+	border:1px solid #000;
+ }
+ #empPopup{
+	background:rgba(0,0,0, 0.7);
+	width: 100%;
+	height:100%;
+	margin: 0;
+	padding:0;
+	position: fixed;
+	z-index: 999;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	display:none;
+} 
+.scheduleDetailsDisplay{
+	color:#FFF;
+	background:#1abc9c;
+	margin:0;
+	padding:0;
+	cursor:pointer;
+}
+.scheduleDetailsDisplay th{
+	margin:0;
+	padding:0px 10px;
+	height: 30px;
+}
+.netEmpData{
+	background:#949494;
+	color: #FFF;
+}
+.netEmpData td{
+	/*padding:2px 10px;*/
+	/*text-align: center;*/
+	
+}
+.popupContainer{
+	width:90%;
+	background: #FFF;
+	margin:41px auto;
+	max-height: 500px;
+	border-radius:5px; 
+}
+.scheduleStatus{
+	height: 500px;
+}
+.poputTitle{
+	font-weight: 500;
+font-size: 18px;
+width: 80px;
+display: block;
+float: left;
+margin: 0px 24px;
+}
+.icon{
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	/*background-color: black;*/
+	vertical-align: inherit;
+	margin: 0 5px;
+}
+.popupInnerTitleTable{
+width: 100%;text-align: center;
+
+}
+.emp_icon{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px -262px;
+}
+.icon_male{
+	background-image: url('images/iconsprite.png');
+	background-position: -9px -575px;
+}
+.icon_female{
+	background-image: url('images/iconsprite.png');
+	background-position: -9px -608px;
+}
+.icon_pickup{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px 156px;
+}
+.icon_pickup_green{
+	background-image: url('images/iconsprite.png');
+	background-position: -8px -339px;
+}
+.icon_drop_green{
+	background-image: url('images/iconsprite.png');
+	background-position: -13px -120px;
+}
+.icon_drop{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px 188px;
+}
+.icon_attending{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px -262px;
+}
+.icon_notattending{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px -262px;
+}
+.icon_confirmed{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px 256px;
+}
+.icon_notconfirmed{
+	background-image: url('images/iconsprite.png');
+	background-position: -11px 222px;
+}
+#timeRangeValue span{
+	font-weight:bold
+}
+.titleTr{
+	width: 25%;
+}
+.pickupcount{
+	font-weight: 800;
+	color:black;
+}
