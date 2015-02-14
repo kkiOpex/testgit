@@ -21,6 +21,7 @@ var map;
 var waypoint,ICON_IMAGE,ICON_POSITION, ANCHOR, LABEL_TEXT;
 var i = 0;
 var z = 0;
+var triplistMap = new Object();
 var directionsService;
 var IMAGE_BASE_URL = "http://10.20.254.26/routescreenUI/css/images/"; 
 $(document).ready(function() {	  
@@ -88,14 +89,29 @@ $('body').on('click','#selectAllRoutes',function(){
 		 checkAllRoutes();
 		});
 $('body').on('click','#selectAllSchedule',function(){
-		var checkAll=$('#selectAllSchedule').is(':checked');
+	var map = triplistMap;
+	var checkAll=$('#selectAllSchedule').is(':checked');
+	if(checkAll==false){
+		$.each(map,function(date,value){
+			map[date]['ischecked']="false";
+		});
+		 $('input', oTable.fnGetNodes()).prop( "checked", false );
+	}
+	if(checkAll==true){
+		$.each(map,function(date,value){
+			map[date]['ischecked']="true";
+		});
+		 $('input', oTable.fnGetNodes()).prop( "checked", true );
+	}
+	console.log(map);
+		/*var checkAll=$('#selectAllSchedule').is(':checked');
 		var checkBox = $('input', oTable.fnGetNodes());
  		if(checkAll==false){
 			 $('input', oTable.fnGetNodes()).prop( "checked", false );
  		}
 		if(checkAll==true){
 			 $('input', oTable.fnGetNodes()).prop( "checked", true );
- 		} 
+ 		} */
 	});
 $('body').on('click','.scheduleDetailsDisplay',function(){
 		 $('tr.scheduleDetailsDisplay').next().hide();
