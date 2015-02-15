@@ -54,6 +54,7 @@ body{
 	font-size:15px;
 	background:#fff;
 	line-height:50px;
+	/* height:100%; */
 } 
 #rightWrapperContentFirstHeader label{
 	font-weight:600;
@@ -62,9 +63,13 @@ body{
 	background:#eee;
 	border-top:1px solid #183c56;
  	border-bottom:1px solid #183c56;
+ 	height:100% !important;
 }
 #rightWrapperContentSecondHeader label{
 	color:#1bb899;
+}
+.toppanel{
+	height:100%;
 }
 .selectOffice{
 	background: url("images/drop-down.png") no-repeat scroll 97% 50% #959595;
@@ -205,6 +210,22 @@ margin: 0px 24px;
 	vertical-align: inherit;
 	margin: 0 5px;
 }
+.icon_large{
+	width: 35px;
+	height: 35px;
+	display: inline-block;
+	/*background-color: black;*/
+	vertical-align: inherit;
+	margin: 0 5px;
+}
+.seat{
+	width: 60px;
+	height: 60px;
+	display: inline-block;
+	background-color: #1ABC9C;
+	vertical-align: inherit;
+	margin: 0 5px;
+}
 .popupInnerTitleTable{
 width: 100%;text-align: center;
 
@@ -253,6 +274,32 @@ width: 100%;text-align: center;
 	background-image: url('images/iconsprite.png');
 	background-position: -11px 222px;
 }
+.greenplus_icon {
+    background-image: url("images/iconsprite.png");
+    background-position: -52px -86px;
+    cursor:pointer;
+}
+.remove_icon {
+    background-image: url("images/iconsprite.png");
+    background-position: -7px -218px;
+    cursor: pointer;
+}
+.save_icon {
+    background-image: url("images/iconsprite.png");
+    background-position: -7px -777px;
+    cursor: pointer;
+}
+.seat_icon{
+	 background-image: url("images/iconsprite.png");
+    background-position: -44px 0px;
+border-radius: 5px;
+/*  margin: 11px 0px 0px; */
+}
+.edit_icon {
+    background-image: url("images/iconsprite.png");
+    background-position: -7px 408px;
+    cursor: pointer;
+}
 #timeRangeValue span{
 	font-weight:bold
 }
@@ -262,4 +309,31 @@ width: 100%;text-align: center;
 .pickupcount{
 	font-weight: 800;
 	color:black;
+}
+.can_count_icon{
+	width: 25px;
+display: inline-block;
+border-radius: 50%;
+border: 0px none;
+text-align: center;
+height: 25px;
+position: absolute;
+margin: -11px 10px 0px 49px;
+background: none repeat scroll 0% 0% red;
+color: rgb(255, 255, 255);
+}
+.cab_seat_count{
+	width: 65px;
+clear: both;
+display: inline-block;
+margin: 61px 10px 10px -115px;
+position: absolute;
+border: 0px none;
+background: #EEE;
+}
+table.editVehicle  tr td{
+	line-height:30px;
+}
+.select_vehicle{
+	width:80px;
 }

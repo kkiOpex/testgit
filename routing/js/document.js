@@ -21,7 +21,7 @@ var map;
 var waypoint,ICON_IMAGE,ICON_POSITION, ANCHOR, LABEL_TEXT;
 var i = 0;
 var z = 0;
-var triplistMap = new Object();
+var triplistMap = {};
 var directionsService;
 var IMAGE_BASE_URL = "http://10.20.254.26/routescreenUI/css/images/"; 
 $(document).ready(function() {	  
