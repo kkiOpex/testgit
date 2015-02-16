@@ -1198,6 +1198,46 @@ function showRoutesOnMap(){
 			showRoute(locationCoord);
 		}*/
 }
+function fleetsJSON(){
+	var type = typeArray;
+	var numberOfVehicle = numberOfVehicleArray;
+	var comma;
+	var fleetJSON ='{ "fleets":{ "vehicleTypes":[';
+	var i,k;
+	for( i=0;i < type.length;i++){
+		if(i ==(typeArray.length-1)){
+			comma="";
+		}else{
+			comma=",";
+		}
+		//console.log(typeArray.length-1);
+		fleetJSON +='{ "typeid":"T'+i+'","capacity":"'+type[i]+
+		'","costperD":"1","costperT":"1","fixedcost":"0","maxcount":"8","maxavailableduration":"720"}'+comma;
+	}
+	fleetJSON +='],"vehicles":[';
+
+	for(k=0;k < numberOfVehicle.length;k++){
+		/*if(k < numberOfVehicle.lenght-1){
+			comma=",";
+		}else{
+			comma="";
+		}
+		console.log(" K :"+k);*/
+		console.log(numberOfVehicleArray.length-1);
+		for(var i=0;i < numberOfVehicle[k]; i++){
+			if(k ==(numberOfVehicleArray.length-1) && i==(numberOfVehicle[k]-1)){
+				comma="";
+			}else{
+				comma=",";
+			}
+			fleetJSON +='{ "vehicleid":"220","typeid":"T'+k+'", "location":"office","startCoord":"80.174814,13.094353","return2depot":"true",'
+			+'"earlieststart":"0","latestarrival":"0"}'+comma;
+		}
+		
+	}
+	fleetJSON +='] } }';
+	console.log(fleetJSON);
+}
 function exceldown(val){  
             var uri = $("#routeDataExcel").btechco_excelexport({
                 containerid: "routeDataExcel"
@@ -1216,4 +1256,25 @@ function callChildexcel(val){
             }); 
             $(val).attr('download', 'ChildTableData.xls').attr('href', uri).attr('target', '_blank');
    ;
+}
+function editvehicle(val){
+	var idstr = $(val).attr('id');
+	var cabcount = parseInt(idstr);
+	var numberOfVehicle = $('#'+cabcount+'_numberOfVehicle').val();
+	var typestr =$("#"+cabcount+"_type").val();
+	var type = parseInt(typestr);
+	var html='<table cellpadding="0" cellspacing="0" style="float: left;" class="editVehicle" id="'+cabcount+'edit">'
+		+'<tr><td align="right"><label>Type <select class="select_vehicle" id="'+cabcount+'edit_type">'
+		+'<option>3</option><option>4</option><option>8</option><option>10</option>'
+		+'</select></label></label></td><td>'
+		+'<label class="icon_large remove_icon" id="'+cabcount+'_remove"></label></td></tr>'
+		+'<tr><td><label>Number Of Vehicle <input style="width: 80px" type="text"  id="'+cabcount+'edit_numberof_vehicle"/>'
+		+'</label></td><td><label class="icon_large save_icon" id="'+cabcount+'_save"></label></td>'
+		+'</tr></table>';
+															
+												
+	$('#'+cabcount+'_vehicle').before(html);													
+	$("#"+cabcount+"edit_numberof_vehicle").val(numberOfVehicle);
+	$("#"+cabcount+"edit_type").val(type);
+	console.log(cabcount);
 }

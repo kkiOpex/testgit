@@ -23,6 +23,9 @@ var i = 0;
 var z = 0;
 var triplistMap = {};
 var directionsService;
+var typeArray = new Array();
+var numberOfVehicleArray = new Array();
+
 var IMAGE_BASE_URL = "http://10.20.254.26/routescreenUI/css/images/"; 
 $(document).ready(function() {	  
 	/*$("#viewmap").click(function() {
@@ -127,6 +130,49 @@ $('#empPopup').click(function(e){
     }
 
 	});
+$("#addVehicle").click(function(){
+	var type = $('#vehicle_type').val();
+	var numberOfVehicle = $('#vehicle_number').val();
+	var cout_vehicle_type=$('#cout_vehicle_type').val();
+	var html ='';
+	html +='<div id="'+cout_vehicle_type+'_vehicle" class="each_vehicle" ><input type="text" class="can_count_icon" value="'+numberOfVehicle+'" id="'+cout_vehicle_type+'_numberOfVehicle" readonly /> <label class="seat seat_icon"> </label>' 
+			+'<label class="icon_large edit_icon" id="'+cout_vehicle_type+'vehicle_edit" onclick="editvehicle(this)"> </label>'
+			+'<input type="text" class="cab_seat_count" value="'+type+' Seats" id="'+cout_vehicle_type+'_type" readonly /><div>';
+	$("#show_vehicle_info").append(html);
+	$('.each_vehicle').css({"float":"left"});
+	typeArray.push(type);
+	numberOfVehicleArray.push(numberOfVehicle);
+	var count = parseInt(cout_vehicle_type)+1;
+	$('#cout_vehicle_type').val(count);
+	
+});
 
+$('body').on('click','.save_icon',function(){
+	var idstr = $(this).attr('id');
+	var id = parseInt(idstr);
+	var numberofvehicle = $("#"+id+"edit_numberof_vehicle").val();
+	var type = $("#"+id+"edit_type").val();
+	
+	$("#"+id+"_numberOfVehicle").val(numberofvehicle);
+	$("#"+id+"_type").val(type +" seats");
+	
+	typeArray.splice(id,1);
+	numberOfVehicleArray.splice(id,1);
+	
+	typeArray[id]=type;
+	numberOfVehicleArray[id]=numberofvehicle;
+	
+	$("#"+id+"edit").remove();
+	console.log(typeArray);console.log(numberOfVehicleArray);
+});
+$("body").on("click",".remove_icon",function(){
+	var idstr = $(this).attr('id');
+	var id = parseInt(idstr);
+	$("#"+id+"edit").remove();
+	$('#'+id+'_vehicle').remove();
+	typeArray.splice(id,1);
+	numberOfVehicleArray.splice(id,1);
+	console.log(typeArray);console.log(numberOfVehicleArray);
+});
 
 }); 

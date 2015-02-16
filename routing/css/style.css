@@ -299,6 +299,7 @@ border-radius: 5px;
     background-image: url("images/iconsprite.png");
     background-position: -7px 408px;
     cursor: pointer;
+    margin: 0px 6px 11px;
 }
 #timeRangeValue span{
 	font-weight:bold
@@ -336,4 +337,7 @@ table.editVehicle  tr td{
 }
 .select_vehicle{
 	width:80px;
+}
+.each_vehicle{
+	float:left;
 }
