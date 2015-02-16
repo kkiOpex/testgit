@@ -248,7 +248,7 @@ function enableSlider(value,date,hour){
 		var jsondata = data;
 		var totalEmp;
 		console.log(JSON.stringify(data));
-		tripListMapData(jsondata);
+		tripListMapData1(jsondata);
 		var tripSchedule=jsondata.Schedules;
 		empSchedule.push(jsondata.Schedules);
 		var tempmap = triplistMap;
@@ -287,6 +287,7 @@ function enableSlider(value,date,hour){
 					if(!isNaN(drop)){
 						sumDrop.push(drop);
 					}
+					sumEmp.push(total);
 				 empTrip+="<tr><td><input type='checkbox' class='input_align scheduleList inputAlignChild'"+
 					" onclick='uncheckSelectAll(this, \"" +date+"\");' checked></td>"
 					+'<td class="border_left">'+date+'</td>'
@@ -321,69 +322,44 @@ function enableSlider(value,date,hour){
 		
 	});
  }
- function tripListMapData(triplistData){
+
+ function  tripListMapData1(triplistData){
 	 var tripData = triplistData.Schedules;
-	 //triplistMap=tripData;
-	 //console.log(triplistMap);
-	 
-	 $.each(tripData,function(keyDate,value){
-		 
-		 var date = keyDate;
-		 	//console.log(value);
-		 	
-		  triplistMap[""+date]=value;
-		  triplistMap[""+date]['ischecked']='true';
-//		  var eachDateValue = triplistMap;
-//		  console.log(eachDateValue);
-		 $.each(value, function(services, value) {
-			var serviceType = services;
-			if(serviceType!="ischecked"){
-			/*console.log(serviceType);
-			console.log(value);
-			var dataVal = value;*/
-				if(serviceType=="Pickup" && value !=undefined){
-					var countPickup=1;
-					var serviceType="Pickup";
-					
-					$.each(value, function(key, val) {
-						 //console.log(val);
-						//triplistMap[date]['Pickup'] = value;
-						var empId = val['EmployeeId'];
-						//triplistMap[''+date+'']['Pickup'][''+key+'']=empId;
-						delete triplistMap[date].Pickup[key];
-						triplistMap[date][serviceType.toString()][empId] = val;
-						triplistMap[date]['countpickup']=countPickup;
-						//triplistMap[date]['Pickup']['length']=countPickup;
-						countPickup +=1;
-					});
-				}
-				if(serviceType=="Drop" && value !=undefined){
-					var countDrop=1;
-					var serviceType="Drop";
-					
-					$.each(value, function(key, val) {
-						 //console.log(val);
-						//triplistMap[date]['Drop'] = value;
-						var empId = val['EmployeeId'];
-						//delete myJSONObject[prop];
-						//triplistMap[''+date+'']['Drop'][''+key+'']=empId;
-						delete triplistMap[date].Drop[''+key+''];
-						triplistMap[date][serviceType][empId] = val;
-						triplistMap[date]['countdrop']=countDrop;
-						//triplistMap[date]['Drop']['length']=countDrop;
-						countDrop +=1;
-					});
-				}
-			}
-		});
+	
+	 $.each(tripData,function(datekey,value){
+		 var date=datekey;
+		 triplistMap[date]={};
+		 $.each(value,function(servicekey,value){
+			 var service=servicekey;
+			 if(servicekey=="Pickup"){
+				 var countPickup=1;
+				 triplistMap[date][''+service+'']={};
+				 $.each(value,function(key,val){
+					 triplistMap[date][''+service+''][val.EmployeeId]=val;
+					 triplistMap[date][''+service+''][val.EmployeeId]['ischecked']="true";
+					 triplistMap[date]['countpickup']=countPickup;
+					 countPickup +=1;
+				 });
+			 }
+			 if(servicekey=="Drop"){
+				 var countDrop=1;
+				 triplistMap[date][''+service+'']={};
+				 $.each(value,function(key,val){
+					 triplistMap[date][''+service+''][val.EmployeeId]=val;
+					 triplistMap[date][''+service+''][val.EmployeeId]['ischecked']="true";
+					 triplistMap[date]['countdrop']=countDrop;
+					 countDrop +=1;
+				 });
+			 }
+		 });
+		 triplistMap[date]['ischecked']='true';
 	 });
-	 //document.write(triplistMap);
-	 	console.log(JSON.stringify(triplistMap));
  }
+
  function sumAll(array){
 	var sum=0;
 	for(i=0;i<array.length;i++){
-		sum +=array[i];
+		sum +=parseInt(array[i]);
 	}
 	//console.log(sum); 
 	return sum;
@@ -772,7 +748,7 @@ createRequest();
 }
 }
 function getData(){
- 	var scheduleTime, indivEmpModificationData, pickupModif=[],dropModif=[],pickupCount,dropCount, empPouupHtml='',k=0;
+ 	var scheduleTime, indivEmpModificationData, pickupModif=[],dropModif=[],pickup,drop, totalservices, empPouupHtml='',k=0;
  	var netEmployees = $('#netEmp').val();
  	var netPickup =$('#netPickup').val();
  	var netDrop = $('#netDrop').val();
@@ -782,7 +758,6 @@ function getData(){
 		//var checkedValue=$(this).val();
 		return $(this).val();
 	}).get();
-	console.log(checkBox);
 	empPouupHtml+='<div class="popupContainer"><table style="width:100%;margin:0px 0px;" cellspacing="0" cellpadding="0" border="0">'+
 	'<tr class="netEmpData"><td style="width:24%;border-right:solid 2px #1abc9c;"><label class="poputTitle">Employees</label> '+netEmployees+'<label class="icon emp_icon"></label></td>'+
 	'<td  style="width:24%;border-right:solid 2px #1abc9c;"><table class="popupInnerTitleTable"><tr><td>M <label class="icon icon_male"></label></td><td>F <label class="icon icon_female"></label></td></tr></table></td>'+
@@ -792,11 +767,38 @@ function getData(){
 	var k = 0;
 	$.each(map,function(key,val){
 		var istrue = map[''+key+'']['ischecked'];
-		//console.log(istrue);
+		//console.log(val);
+		var date = key;
+		var ispickup=val.Pickup;
+		var isdrop=val.Drop;
+		//console.log(ispickup);
+		//console.log(isdrop);
+		
+		
 		if(istrue=="true"){
-			empPouupHtml+='<tr class="scheduleDetailsDisplay"><th style="border-right:solid 2px #00985D;" valign="top"><table><tr><td>'+netPickupDrop+'</td><td><label class="icon emp_icon"></label></td></tr></table></th>'
-			+'<th style="border-right:solid 2px #00985D;" valign="top"><table class="popupInnerTitleTable"><tr><td class="titleTr">'+netPickupDrop+'</td><td class="titleTr"><label class="icon icon_male"></label></td><td class="titleTr">0 </td><td class="titleTr"><label class="icon icon_female"></label></td></tr></table></th>'
-			+'<th style="border-right:solid 2px #00985D;" valign="top"><table class="popupInnerTitleTable"><tr><td class="titleTr">'+pickupCount+'</td><td class="titleTr"><label class="icon icon_pickup"></label></td><td class="titleTr">'+dropCount+'</td><td class="titleTr"><label class="icon icon_drop"></label></td></tr></table></th>'
+		 
+			if(ispickup!=undefined && isdrop==undefined){
+				pickup = val.countpickup;
+				drop = 0;
+				totalservices = pickup;
+				console.log(pickup)
+			}
+			if(ispickup==undefined && isdrop!=undefined){
+				pickup = 0;
+				drop = val.countdrop;
+				totalservices = drop;
+				console.log(drop)
+			}
+			if(ispickup!=undefined && isdrop!=undefined){
+				pickup = val.countpickup;
+				drop = val.countdrop;
+				totalservices = parseInt(pickup)+parseInt(drop);
+				console.log(pickup);console.log(drop);console.log(totalservices)
+			}
+			
+			empPouupHtml+='<tr class="scheduleDetailsDisplay"><th style="border-right:solid 2px #00985D;" valign="top"><table><tr><td>'+totalservices+'</td><td><label class="icon emp_icon"></label></td></tr></table></th>'
+			+'<th style="border-right:solid 2px #00985D;" valign="top"><table class="popupInnerTitleTable"><tr><td class="titleTr">'+totalservices+'</td><td class="titleTr"><label class="icon icon_male"></label></td><td class="titleTr">0 </td><td class="titleTr"><label class="icon icon_female"></label></td></tr></table></th>'
+			+'<th style="border-right:solid 2px #00985D;" valign="top"><table class="popupInnerTitleTable"><tr><td class="titleTr">'+pickup+'</td><td class="titleTr"><label class="icon icon_pickup"></label></td><td class="titleTr">'+drop+'</td><td class="titleTr"><label class="icon icon_drop"></label></td></tr></table></th>'
 			+'<th><table class="popupInnerTitleTable" valign="top"><tr><td class="titleTr">40</td><td class="titleTr"><label class="icon icon_confirmed"></label></td><td class="titleTr">40</td><td class="titleTr"><label class="icon icon_notconfirmed"></label></td></tr></table></th></tr>';
 			if (k == 0) {
 				var displayVar = "inline-table";
@@ -808,55 +810,42 @@ function getData(){
 				var pickupData = val['Pickup'];
 				console.log(pickupData);
 				empPouupHtml+='<tr><td colspan="5" valign="top"><table id="table'+k+'" style="margin:0;width:100%;padding:0;display:'+displayVar+'" cellspacing="0" cellpadding="0">'+
-				'<thead><tr><th ><input type="checkbox" onchange="unselectAllPopup(this)" name="selectall" id="'+k+'" onclick="selectAllChild(this)"></th>'
-				+'<th>Emp ID</th><th>Emp Name</th><th>Time</th><th>Type</th></tr></thead><tbody>';
-				/*$.each(pickupData,function(i,val){
-					
-					console.log(i);
+				'<thead><tr><th ><input type="checkbox" onchange="unselectAllPopup(this)" name="selectall" id="'+k+'" onclick="selectAllChild(this, \''+date+'\',\'Pickup\')"></th>'
+				+'<th>Emp ID</th><th>Emp Name</th><th>Type</th></tr></thead><tbody>';
+				$.each(pickupData,function(i,val){
 					console.log(val);
-					//empPouupHtml+="<tr><td><input type='checkbox' value='"+newempData+"' class='sechedule"+k+"' onchange='unselectAllPopup(this)'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td>"+triptime+"</td><td><label class='icon icon_pickup_green'></label></td></tr>";
-				});*/
+					empPouupHtml+="<tr><td><input type='checkbox' class='sechedule"+k+"' onchange='unselectAllPopup(this, \""+date+"\",\"Pickup\",\""+val.EmployeeId+"\")'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td><label class='icon icon_pickup_green'></label></td></tr>";
+				});
 				empPouupHtml+='</tbody></table></td></tr>';
-				console.log(pickupDataEmp);
+				//console.log(pickupDataEmp);
 			}else if(val['Pickup']==undefined && val['Drop'] != undefined){
 				var dropData = val['Drop'];
-				console.log(dropData);
-				empPouupHtml+='<tr><td colspan="5" valign="top"><table id="table'+k+'" style="margin:0;width:100%;padding:0;display:'+displayVar+'" cellspacing="0" cellpadding="0"><thead><tr><th ><input type="checkbox" name="selectall" id="'+k+'" onclick="selectAllChild(this)"></th>'
-				+'<th>Emp ID</th><th>Emp Name</th><th>Time</th><th>Type</th></tr></thead><tbody>';
+				empPouupHtml+='<tr><td colspan="5" valign="top"><table id="table'+k+'" style="margin:0;width:100%;padding:0;display:'+displayVar+
+				'" cellspacing="0" cellpadding="0"><thead><tr><th ><input type="checkbox" name="selectall" id="'+k+'" onclick="selectAllChild(this,\''+date+'\',\'Drop\')"></th>'
+				+'<th>Emp ID</th><th>Emp Name</th><th>Type</th></tr></thead><tbody>';
 				//console.log(pickupData);
 				$.each(dropData,function(i,val){
-					/*console.log(i);
-					console.log(val);*/
-					//empPouupHtml+="<tr><td><input type='checkbox' value='"+newempData+"' class='sechedule"+k+"' onchange='unselectAllPopup(this)'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td>"+triptime+"</td><td><label class='icon icon_drop_green'></label></td></tr>";
+					
+					empPouupHtml+="<tr><td><input type='checkbox' class='sechedule"+k+"' onchange='unselectAllPopup(this, \""+date+"\",\"Drop\",\""+val.EmployeeId+"\")'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td><label class='icon icon_drop_green'></label></td></tr>";
 				});
 				empPouupHtml+='</tbody></table></td></tr>';
 				
 			}else if(val['Pickup']!=undefined && val['Drop'] != undefined){
-				empPouupHtml+='<tr ><td colspan="5" valign="top"><table style="margin:0;width:100%;padding:0;display:'+displayVar+'" id="table'+k+'" cellspacing="0" cellpadding="0"><thead ><tr><th ><input type="checkbox" name="selectall" id="'+k+'" onclick="selectAllChild(this)"></th>'
-				+'<th>Emp ID</th><th>Emp Name</th><th>Time</th><th>Type</th></tr></thead><tbody>';
-				var pickupData = val['Pickup'];
-				console.log(pickupData);
-				/*$.each(pickupData,function(i,val){
-					
-					console.log(i);
-					console.log(val);
-					//empPouupHtml+="<tr><td><input type='checkbox' value='"+newempData+"' class='sechedule"+k+"' onchange='unselectAllPopup(this)'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td>"+triptime+"</td><td><label class='icon icon_pickup_green'></label></td></tr>";
-				});*/
-				var dropData = val['Drop'];
-				console.log(dropData);
-				/*$.each(dropData,function(i,val){
-					
-					console.log(i);
-					console.log(val);
-					//empPouupHtml+="<tr><td><input type='checkbox' value='"+newempData+"' class='sechedule"+k+"' onchange='unselectAllPopup(this)'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td>"+triptime+"</td><td><label class='icon icon_drop_green'></label></td></tr>";
-				});*/
-				empPouupHtml+='</tbody></table></td></tr>'; 
+				empPouupHtml+='<tr ><td colspan="5" valign="top"><table style="margin:0;width:100%;padding:0;display:'+displayVar+'" id="table'+k+'" cellspacing="0" cellpadding="0"><thead ><tr><th ><input type="checkbox" name="selectall" id="'+k+'" onclick="selectAllChild(this,\''+date+'\',\'Pickup\')"></th>'
+				+'<th>Emp ID</th><th>Emp Name</th><th>Type</th></tr></thead><tbody>';
+				$.each(ispickup,function(i,val){
+					var newempData=JSON.stringify(val);
+					empPouupHtml+="<tr><td><input type='checkbox' class='sechedule"+k+"' onchange='unselectAllPopup(this, \""+date+"\",\"Pickup\",\""+val.EmployeeId+"\")'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td><label class='icon icon_pickup_green'></label></td></tr>";
+				});
+				
+				$.each(isdrop,function(i,val){
+
+					empPouupHtml+="<tr><td><input type='checkbox' class='sechedule"+k+"' onchange='unselectAllPopup(this, \""+date+"\",\"Drop\",\""+val.EmployeeId+"\")'></td><td>"+val.EmployeeId+"</td><td>"+val.EmployeeName+"</td><td><label class='icon icon_drop_green'></label></td></tr>";
+				});
+				empPouupHtml+='</tbody></table></td></tr>';
 			}
 			
 			//console.log(istrue);
-			console.log(val);
-			/*console.log(val['Pickup']);
-			console.log(val['Drop']);*/
 		}
 		k +=1;
 	});
@@ -933,7 +922,7 @@ function getData(){
 		}		 
 		}); 
 	} */
-	/*empPouupHtml+='</tbody></table>'
+	empPouupHtml+='</tbody></table>'
 			+'<div style="padding:10px 0px;"><div style="width:256px;margin:0 auto;"><input type="button" value="Undo" class="button" style="margin: 0px 10px;" onclick="undoAll()">'
             +'<input type="button" value="Done" id="proceed" class="button" style="margin: 0px 10px;" onclick="getAllValue()"></div>';
 	//console.log(empPouupHtml);
@@ -958,7 +947,7 @@ function getData(){
 	//console.log(objPopupTable);
 	$("#empPopup").show();
 	$('div.popupContainer').niceScroll();
-	undoAll();*/
+	undoAll();
     //console.log(checkBox.length); 
 }
 function undoAll(){
@@ -968,19 +957,42 @@ for(i=0;i<objPopupTable.length;i++){
 		$('.sechedule'+i, objPopupTable[i].fnGetNodes()).prop( "checked", true );
 	} 
 }
-function selectAllChild(id){
+function selectAllChild(id, date, service){
 	var selectId=$(id).attr("id");
-	//var tableID=$(id).parents('table').attr("id");
- 	var checkAll=$(id).is(':checked'); 
+	var checkAll=$(id).is(':checked');
 	var pt1=objPopupTable[selectId];
-	console.log("id"+selectId);
-	console.log(pt1);
-	if(checkAll==false){
-		$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", false );
-	}
-	if(checkAll==true){
-		$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", true );
-	} 
+	
+	var empinfo = triplistMap[''+date+''];
+	$.each(empinfo,function(key,val){
+		//console.log(key);
+		
+		if(key=="Pickup"){
+			$.each(val,function(id,val){
+				if(checkAll==false){
+					empinfo['Pickup'][''+id]['ischecked']="false";
+					$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", false );
+				}else{
+					empinfo['Pickup'][''+id]['ischecked']="true";
+					$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", true );
+				}
+				
+			});
+		}
+		if(key=="Drop"){
+			$.each(val,function(id,val){
+				if(checkAll==false){
+					empinfo['Drop'][''+id]['ischecked']="false";
+					$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", false );
+				}else{
+					empinfo['Drop'][''+id]['ischecked']="true";
+					$('.sechedule'+selectId, objPopupTable[selectId].fnGetNodes()).prop( "checked", true );
+				}
+				
+			});
+		}
+		console.log(val);
+	});
+	
 }
 function getAllValue(){
 	for(i=0;i<objPopupTable.length;i++){ 
@@ -1027,10 +1039,17 @@ function uncheckSelectAllRoute(){
 		}
 	}
 }
-function unselectAllPopup(thisVal){
+function unselectAllPopup(thisVal, date, service, empid){
 	var className=$(thisVal).attr("class").replace('sechedule','');
-	console.log(className);
-	
+	var emp =triplistMap[''+date][''+service][''+empid];
+	var ischecked = $(thisVal).prop("checked");
+	if(ischecked==false){
+		emp['ischecked']="false";
+		 console.log(emp);
+	}else{
+		emp['ischecked']="true";
+		 console.log(emp);
+	}
 		var checkAll=$('.sechedule'+className, objPopupTable[className].fnGetNodes());
 		
 		for(k=0;k<checkAll.length;k++){
@@ -1040,6 +1059,7 @@ function unselectAllPopup(thisVal){
 				 return false;
 			 }else{
 				 $('#'+className).prop('checked',true);
+				 
 			 }
 		} 
 }

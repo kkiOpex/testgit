@@ -21,8 +21,8 @@ var map;
 var waypoint,ICON_IMAGE,ICON_POSITION, ANCHOR, LABEL_TEXT;
 var i = 0;
 var z = 0;
-var triplistMap = {};
 var directionsService;
+var triplistMap = new Object();
 var typeArray = new Array();
 var numberOfVehicleArray = new Array();
 
