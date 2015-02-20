@@ -240,7 +240,7 @@ function enableSlider(value,date,hour){
 	//	var employeesData = '{"username":"' + APP_USER_NAME + '","password":"' + APP_PASSWORD + '"}\n{"time":{"$gte":"' + startDate +'","$lte":"'+endDate+'"}}';
 	   var employeesData = '{"username":"' + APP_USER_NAME + '","password":"' + APP_PASSWORD + '"}\n{"time":{"$gte":"2014-12-12--1000","$lte":"2014-12-13--2200"}}';
 		var request = $.ajax({
-		url : "http://10.20.253.64:8084/ReportScheduleServlet",
+		url : "http://10.20.253.64:8081/ReportScheduleServlet",
 		type : 'post',
 		dataType : 'json',
 		data : employeesData,
@@ -1257,6 +1257,44 @@ function fleetsJSON(){
 	}
 	fleetJSON +='] } }';
 	console.log(fleetJSON);
+}
+function servicesJSON(){
+	var servicesjson='{"services":['
+	$.each(triplistMap,function(datekey,val){
+		
+		if(val['ischecked']=="true"){
+			//console.log(val);
+			$.each(val,function(key,val){
+				var service=key;
+				if(key=="Pickup"){
+					$.each(val,function(key,val){
+						if(val['ischecked']=="true"){
+							servicesjson+='{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
+							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"Y","nshiftstart":"0",'+
+							'"isdrop":"N","lat":"'+val.HomeLocation[1]+'"},';
+						}
+					});
+				}else if(key=="Drop"){
+					$.each(val,function(key,val){
+						if(val['ischecked']=="true"){
+							servicesjson+='{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
+							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"N","nshiftstart":"0",'+
+							'"isdrop":"Y","lat":"'+val.HomeLocation[1]+'"},';
+						}
+					});
+				}
+			});
+		}
+	});
+	servicesjson+='],"Plan_Window":{"start":"0","end":"0"},"user":"iOpex"}';
+	console.log(servicesjson);
+}
+function changeHoursToMin(date){
+	var time = date.slice(-4);
+	var hours = parseInt(time.slice(0,2));
+	var min = parseInt(time.slice(-2));
+	var timeInMin=(hours*60)+min;
+	return timeInMin;
 }
 function exceldown(val){  
             var uri = $("#routeDataExcel").btechco_excelexport({
