@@ -228,8 +228,8 @@ function enableSlider(value,date,hour){
 	 goToVehicle();
 	// $("#mapOption").show();
 	
-	 //$("#route").hide();
-	// callRouteTable(); 
+	 $("#route").hide();
+	 callRouteTable(); 
 }
 
  function callEmp(){   
