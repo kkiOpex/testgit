@@ -1261,7 +1261,8 @@ function fleetsJSON(){
 function servicesJSON(){
 	var servicesjson='{"services":['
 	$.each(triplistMap,function(datekey,val){
-		
+		var date = datekey;
+		console.log(date);
 		if(val['ischecked']=="true"){
 			//console.log(val);
 			$.each(val,function(key,val){
@@ -1271,7 +1272,7 @@ function servicesJSON(){
 						if(val['ischecked']=="true"){
 							servicesjson+='{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
 							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"Y","nshiftstart":"0",'+
-							'"isdrop":"N","lat":"'+val.HomeLocation[1]+'"},';
+							'"isdrop":"N","lat":"'+val.HomeLocation[1]+'","timestamp":"'+date+'"},';
 						}
 					});
 				}else if(key=="Drop"){
@@ -1279,7 +1280,7 @@ function servicesJSON(){
 						if(val['ischecked']=="true"){
 							servicesjson+='{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
 							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"N","nshiftstart":"0",'+
-							'"isdrop":"Y","lat":"'+val.HomeLocation[1]+'"},';
+							'"isdrop":"Y","lat":"'+val.HomeLocation[1]+'","timestamp":"'+date+'"},';
 						}
 					});
 				}
