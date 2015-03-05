@@ -684,23 +684,7 @@ stopover : true
 //console.log(waypoint);
 var i = 1;
 if (waypoint.length >= 1) {
-/* console.log(waypoint[i]);
-var request = {
-//origin: new google.maps.LatLng("80.168614","13.094722"),
-origin: new google.maps.LatLng("13.094722","80.168614"),
-//destination: new google.maps.LatLng("80.168614","13.094722"),
-destination: new google.maps.LatLng("13.094722","80.168614"),
-waypoints: waypoint[i],
-optimizeWaypoints: false,
-travelMode: google.maps.TravelMode.DRIVING
-};
-directionsService.route(request, function(response, status) {
-console.log(status);
-if (status == google.maps.DirectionsStatus.OK) {
-directionsDisplay.setDirections(response);
-directionsDisplay.setMap(map);
-}
-});*/
+
 createRequest();
 }
 }
@@ -1288,6 +1272,52 @@ function servicesJSON(){
 		}
 	});
 	servicesjson+='],"Plan_Window":{"start":"0","end":"0"},"user":"iOpex"}';
+	console.log(servicesjson);
+}
+function sapserviceJSON(){
+	var servicesjson='{"services":{'
+	$.each(triplistMap,function(datekey,val){
+		
+		if(val['ischecked']=="true"){
+			//console.log(val);
+			var date = datekey;
+			$.each(val,function(key,val){
+				var service=key;
+				if(key=="Pickup"){
+					count = 1;
+					servicesjson+='"'+date+'":{';
+					console.log('Pickup');
+					console.log(val);
+					$.each(val,function(key,val){
+						if(val['ischecked']=="true"){
+							servicesjson+='"pickup'+count+'":{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
+							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"Y","nshiftstart":"0",'+
+							'"isdrop":"N","lat":"'+val.HomeLocation[1]+'"},';
+						}
+						count+=1;
+					});
+					servicesjson+='},'
+				
+				}else if(key=="Drop"){
+					count = 1;
+					servicesjson+='"'+date+'":{';
+					console.log('Drop');
+					console.log(val);
+					$.each(val,function(key,val){
+						if(val['ischecked']=="true"){
+							servicesjson+='"drop'+count+'":{"id":"'+val.EmployeeId+'", "lon":"'+val.HomeLocation[0]+'","shiftend":"'+changeHoursToMin(val.ScheduleEnd)+'","nshiftend":"'
+							+val.EmployeeName+'", "shiftstart":"'+changeHoursToMin(val.ScheduleStart)+'","gender":"'+val.Gender+'","ispickup":"N","nshiftstart":"0",'+
+							'"isdrop":"Y","lat":"'+val.HomeLocation[1]+'"},';
+						}
+						count+=1;
+					});
+					servicesjson+='},'
+				}
+				
+			});
+		}
+	});
+	servicesjson+='},"Plan_Window":{"start":"0","end":"0"},"user":"iOpex"}';
 	console.log(servicesjson);
 }
 function changeHoursToMin(date){
